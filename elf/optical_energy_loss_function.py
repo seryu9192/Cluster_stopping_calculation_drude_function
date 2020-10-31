@@ -1,5 +1,5 @@
 # energy_loss_function.py
-#calculate energy loss function of glycine
+# calculate and show optical energy loss function(OELF) of glycine
 
 import os
 import numpy as np
@@ -27,7 +27,7 @@ plt.rcParams["font.size"] = 20
 plt.rcParams["axes.linewidth"] = 1.5
 
 # glycine parameters
-dens = 1.607 #g cm^-3
+dens = 1.1607 #g cm^-3
 NA = 6.02E23 #Avogadro
 M = 75 
 Z = 30 # number of valence electrons per molecule
