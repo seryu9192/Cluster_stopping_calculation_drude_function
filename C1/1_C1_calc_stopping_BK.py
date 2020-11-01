@@ -19,13 +19,11 @@ param_path = r'./param_C1.json'
 
 #experimental condition
 # Energy(keV) and velocity(au) of projectile
-E = 900
-
+E = 0
 #target name
 target = ''
-
 #plasmon energy(atomic unit)
-E_p = 1
+E_p = 0
 
 #parameters for integration
 r_close = 0
@@ -37,10 +35,10 @@ q = [0]     #average charges
 lamb = [0]  #screening parameters of Brandt-Kitagawa model
 
 #beam velocity v (atomic unit)
-v = sqrt(E/E_CARBON)
+v = 0
 
 #被積分関数
-def integrand(w, k):
+def integrand(k, w):
     #Brandt-Kitagawaモデルの遮蔽関数（のFourier変換）
     zeta = [0] * len(q)
     
@@ -54,18 +52,17 @@ def integrand(w, k):
        diagonal_terms += zeta[i]**2
 
     elf = drude_function(w)
-    return (diagonal_terms) * elf/k
+    return w * diagonal_terms * elf/k
 
 #calc stopping
 def calc_stopping_BK():
     #integration result
-    res = integrate.dblquad(integrand, k_min, k_max, lambda x: 0, np.inf)[0]
+    res = integrate.dblquad(integrand, 0, v**2/2, lambda x: v*(1-(1-2*x/v**2)**(1/2)), lambda x: v*(1+(1-2*x/v**2)**(1/2)))[0]
 
     #calc stopping(eV/A)
     res *= Z_CARBON**2
-    res *= e2
-    print((r_dist*a_0))
-    res /= ((r_dist*a_0)**2)
+    res *= 2*e2/pi/v**2
+    res /= a_0**2
     return res
 
 def set_parameters(path):
@@ -92,7 +89,7 @@ def set_parameters(path):
     #import average charge as np.array
     with open(q_ave_path, 'r') as f:
         q = np.genfromtxt(f)
-    q = np.array([q])
+    q = np.array([q]) # cast to ndarray
 
     # N : 束縛電子の数 (Z - q)
     N = Z_CARBON - q
@@ -116,8 +113,8 @@ def set_parameters(path):
 def main():
     set_parameters(param_path)
     #check parameters
-    print('E0 = {} keV/atom'.format(E))
-    print('v0 = {} au'.format(v))
+    print('E = {} keV/atom'.format(E))
+    print('v = {} au'.format(v))
     print('target: {}'.format(target))
     print('E_p = {} au'.format(E_p))
     print('N : ', N)

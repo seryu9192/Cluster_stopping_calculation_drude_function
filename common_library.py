@@ -22,8 +22,8 @@ def str_ind(i, j):
 
 #Drude-type Optical energy loss function
 def drude_function(x):
+    #parameters from Z.Tan et al, Rad.Env.Biophys. 45 2(2006) 135-143
     Z_ave = 4 #for Glycine
-    #parameters(from Z. Tan el al, Rad.Env.Biophys. 45 2(2006) 135-143)
     a = 0.2882925381282788 # defined to satisfy f-sum rule
     b = (19.927 + 0.9807 * Z_ave) / E_0
     c = (13.741 + 0.3215 * Z_ave) / E_0
