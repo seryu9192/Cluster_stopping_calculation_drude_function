@@ -37,9 +37,8 @@ k_max = 0
 d = {"00":0}
 b = {"00":0}
 r = {"00":0}
-t = 0
-N = [0, 0]
-q = [0, 0]
+N = [0]
+q = [0]
 lamb = [0]
 
 #beam velocity v (atomic unit)
@@ -95,7 +94,6 @@ def set_parameters(path):
     global q
     global lamb
     global r
-    global t
     global v
 
     #import parameters
