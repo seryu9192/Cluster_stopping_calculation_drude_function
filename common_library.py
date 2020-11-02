@@ -14,7 +14,7 @@ TMF = {
     "beta": [6.0, 1.20, 0.30]
 }
 
-#convert index to index string
+#convert index to index string (i, j) => "ij" (i < j) or "ji" (i > j) 
 def str_ind(i, j):
     res = str(i) + str(j)
     if res > res[::-1]:res = res[::-1]
