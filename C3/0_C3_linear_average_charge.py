@@ -3,10 +3,14 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib.ticker import MultipleLocator
 from numpy import pi, sqrt, exp
 from scipy import integrate
 import os
+import sys
 import json
+sys.path.append('../')
+from common_library import *
 
 plt.rcParams["font.family"] = "Arial"               
 plt.rcParams["xtick.direction"] = "out"             
@@ -30,69 +34,62 @@ param_filename = 'param_C3_linear.json'
 param_path = os.path.join(working_dir, param_filename)
 output_dir = 'results'
 
-#CONSTANTS
-E_C = 300
-a_B = 0.529
-
-#carbon cluster
-Z = 6
-E_0 = 900
-v_0 = sqrt(E_0/E_C)
+#parameters
+E = 0
+v = 0
 
 #interatomic dist in A
-r = a_B #in au
+r = 0 #in atomic unit
 q_init = 2
 qs = [q_init, q_init, q_init]
 
 #NUMBER OF ITERATION
 NUM_ITER = 100
 
-def str_ind(i, j):
-    res = str(i) + str(j)
-    if res > res[::-1]:res = res[::-1]
-    return res
-
-def gauss(t):
-    return exp(-t**2)
-
 def read_parameters(path):
-    global E_0, v_0, r, target
+    global E, v, r
     with open(path, 'r') as f:
         params = json.loads(f.read())
-    E_0 = params["E0"]
-    v_0 = sqrt(E_0/E_C)
+    E = params["E0"]
+    v = sqrt(E/E_CARBON)
     r = params["r"]
     return
 
 def calc_q(i):
-    global Z, qs, v_0, r   
-    v_b = 1.092 * Z**(4/3)
+    global qs, v, r   
+    v_b = 1.092 * Z_CARBON**(4/3)
     for j in range(len(qs)):
         if j == i:
             continue
-        v_b += 2*qs[j]/(r[str_ind(i, j)]/a_B) #r:atomic unit!
+        v_b += 2*qs[j]/(r[str_ind(i, j)]/a_0) #r:atomic unit!
     v_b = sqrt(v_b)
-    y = sqrt(3/8) * v_0 / v_b
-    q_new = Z*2/sqrt(pi)*integrate.quad(gauss, 0, y)[0]
+    y = sqrt(3/8) * v / v_b
+    q_new = Z_CARBON * 2/sqrt(pi) * integrate.quad(lambda x: exp(-x**2), 0, y)[0]
     qs[i] = q_new
 
 def main():
-    global Z, qs, v_0, r   
     read_parameters(param_path)
+
+    #results for showing iteration
     ys_1 = [q_init]
     ys_2 = [q_init]
     ys_3 = [q_init]
+
+    #self-consistent calculation
     for it in range(NUM_ITER):
         for i in range(len(qs)):
             calc_q(i)
         ys_1.append(qs[0])
         ys_2.append(qs[1])
         ys_3.append(qs[2])
-    print('E = {}'.format(E_0))
-    print('v = {}'.format(v_0))
+
+    #show results
+    print('E = {}'.format(E))
+    print('v = {}'.format(v))
     print(r)
     print(qs)
     
+    #save as a text file
     output_filename = '0_C3_linear_average_charge.txt'
     output_path = os.path.join(output_dir, output_filename)
     os.makedirs(output_dir, exist_ok=True)
@@ -101,21 +98,24 @@ def main():
         for q in qs:
             tmp += str(q) + '\n'
         f.write(tmp)
-
     
-    # # plot
-    # xs = np.arange(1, len(ys_1)+1)
-    # fig = plt.figure(dpi=300)
-    # ax = fig.add_subplot(1, 1, 1)
-    # ax.plot(xs, ys_1, label='C1')    
-    # ax.plot(xs, ys_2, label='C2')    
-    # ax.plot(xs, ys_3, label='C3')
-    # ax.legend()
-    # #x axis
-    # ax.set_xlabel('$iteration$')
-    # #y axis
-    # ax.set_ylabel('$q$')
-    # ax.text(0.1, 0.9, 'linear C$_3$', transform=ax.transAxes)
+    # plot
+    xs = np.arange(0, len(ys_1))
+    fig = plt.figure(dpi=300)
+    ax = fig.add_subplot(1, 1, 1)
+    ax.plot(xs, ys_1, label='ion1')    
+    ax.plot(xs, ys_2, label='ion2')    
+    ax.plot(xs, ys_3, label='ion3')
+    #x axis
+    x_min, x_max, x_major, x_minor = 0, 10, 2, 1
+    ax.set_xlim(x_min, x_max)
+    ax.xaxis.set_major_locator(MultipleLocator(x_major))
+    ax.xaxis.set_minor_locator(MultipleLocator(x_minor))
+    ax.set_xlabel('iteration')
+    #y axis
+    ax.set_ylabel('$q$')
+    ax.text(0.02, 0.9, 'linear C$_3$($E$ = {} keV/atom)'.format(E), transform=ax.transAxes)
+    ax.legend(fontsize=15)
 
 if __name__ == '__main__':
     main()
