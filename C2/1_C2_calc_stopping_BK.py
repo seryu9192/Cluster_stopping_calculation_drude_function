@@ -82,8 +82,8 @@ def calc_stopping_BK(t):
     res = integrate.dblquad(integrand, 0, v**2/2, lambda x: v*(1-(1-2*x/v**2)**(1/2)), lambda x: v*(1+(1-2*x/v**2)**(1/2)))[0]
     #calc stopping
     res *= Z_CARBON**2
-    res *= 2*e2/pi/v**2
-    res /= a_0**2
+    res *= 2/pi/v**2
+    res *= e2/a_0**2 # to eV/A
     return res
 
 def set_parameters(path):
