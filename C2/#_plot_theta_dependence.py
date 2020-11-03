@@ -53,7 +53,7 @@ def main():
         #y-axis
         ax.set_ylabel('', fontsize=22)
         ax.set_ylabel('SP (eV/$\AA$)', fontsize=22)
-        ax.set_ylim(0, 200)
+        ax.set_ylim(0, 300)
         ax.yaxis.set_major_locator(MultipleLocator(50))
         ax.yaxis.set_minor_locator(MultipleLocator(10))
         #plot

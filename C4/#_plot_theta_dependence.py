@@ -52,12 +52,12 @@ def main():
         ax.xaxis.set_minor_locator(MultipleLocator(5))
         #y-axis
         ax.set_ylabel('', fontsize=22)
-        ax.set_ylabel('Stopping(eV/$\AA$)', fontsize=22)
-        ax.set_ylim(0, 700)
-        ax.yaxis.set_major_locator(MultipleLocator(100))
-        ax.yaxis.set_minor_locator(MultipleLocator(50))
+        ax.set_ylabel('SP (eV/$\AA$)', fontsize=22)
+        ax.set_ylim(0, 300)
+        ax.yaxis.set_major_locator(MultipleLocator(50))
+        ax.yaxis.set_minor_locator(MultipleLocator(10))
         #plot
-        ax.plot(xs, ys, linewidth=1)
+        ax.plot(xs, ys, linewidth=2, color='black')
         
     ax.text(0.02, 0.9, '0.9 MeV/atom C$_4^+$ in {}'.format(target), fontsize=24, transform=ax.transAxes)
 
