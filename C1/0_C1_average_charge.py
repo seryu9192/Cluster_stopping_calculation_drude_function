@@ -49,13 +49,20 @@ def main():
     print("v = {} au".format(v))    
     print("q_ave =", q)
 
-    #save as a text file
-    output_filename = '0_C1_average_charge.txt'
+    #save as a json file
+    output_filename = 'C1_average_charge.json'
     output_path = os.path.join(output_dir, output_filename)
-    os.makedirs(output_dir, exist_ok=True)
+    #read json file if exists
+    try:
+        with open(output_path, 'r') as f:
+            dat = json.loads(f.read())
+    except Exception:
+        dat = {}
+        os.makedirs(output_dir, exist_ok=True)
+
+    dat[f"{E}"] = q
     with open(output_path, 'w') as f:
-        tmp = str(q) + '\n'
-        f.write(tmp)
+        f.write(json.dumps(dat, indent=4))
 
 if __name__ == '__main__':
     main()

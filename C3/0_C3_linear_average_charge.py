@@ -30,7 +30,7 @@ plt.rcParams["axes.linewidth"] = 1.5
 
 #filepath
 working_dir = './'
-param_filename = 'param_C3_linear.json'
+param_filename = 'param_C3.json'
 param_path = os.path.join(working_dir, param_filename)
 output_dir = 'results'
 
@@ -52,7 +52,7 @@ def read_parameters(path):
         params = json.loads(f.read())
     E = params["E0"]
     v = sqrt(E/E_CARBON)
-    r = params["r"]
+    r = params["r"]["linear"]
     return
 
 def calc_q(i):
@@ -89,15 +89,25 @@ def main():
     print(r)
     print(qs)
     
-    #save as a text file
-    output_filename = '0_C3_linear_average_charge.txt'
+    #save as a json file
+    output_filename = 'C3_average_charge.json'
     output_path = os.path.join(output_dir, output_filename)
-    os.makedirs(output_dir, exist_ok=True)
+    #read json file if exists
+    try:
+        with open(output_path, 'r') as f:
+            dat = json.loads(f.read())
+    except Exception:
+        dat = {}
+        os.makedirs(output_dir, exist_ok=True)
+    #update json
+    #setdefault
+    dat.setdefault(f"{E}",{})
+    dat[f"{E}"].setdefault("linear", {})
+
+    for i, q in enumerate(qs):
+        dat[f"{E}"]["linear"][f"{i}"] = q
     with open(output_path, 'w') as f:
-        tmp = ''
-        for q in qs:
-            tmp += str(q) + '\n'
-        f.write(tmp)
+        f.write(json.dumps(dat, indent=4))
     
     # plot
     xs = np.arange(0, len(ys_1))

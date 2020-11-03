@@ -30,7 +30,7 @@ plt.rcParams["axes.linewidth"] = 1.5
 
 #filepath
 working_dir = './'
-param_filename = 'param_C4_linear.json'
+param_filename = 'param_C4.json'
 param_path = os.path.join(working_dir, param_filename)
 output_dir = 'results'
 
@@ -52,7 +52,7 @@ def read_parameters(path):
         params = json.loads(f.read())
     E = params["E0"]
     v = sqrt(E/E_CARBON)
-    r = params["r"]
+    r = params["r"]["linear"]
     return
 
 def calc_q(i):
@@ -92,21 +92,31 @@ def main():
     print(qs)
 
     #save as a text file
-    output_filename = '0_C4_linear_average_charge.txt'
+    output_filename = 'C4_average_charge.json'
     output_path = os.path.join(output_dir, output_filename)
-    os.makedirs(output_dir, exist_ok=True)
+    #read json file if exists
+    try:
+        with open(output_path, 'r') as f:
+            dat = json.loads(f.read())
+    except Exception:
+        dat = {}
+        os.makedirs(output_dir, exist_ok=True)
+    #update json
+    #setdefault
+    dat.setdefault(f"{E}",{})
+    dat[f"{E}"].setdefault("linear", {})
+
+    for i, q in enumerate(qs):
+        dat[f"{E}"]["linear"][f"{i}"] = q
     with open(output_path, 'w') as f:
-        tmp = ''
-        for q in qs:
-            tmp += str(q) + '\n'
-        f.write(tmp)
+        f.write(json.dumps(dat, indent=4))
     
     # plot
     xs = np.arange(0, len(ys_1))
     fig = plt.figure(dpi=300)
     ax = fig.add_subplot(1, 1, 1)
-    ax.plot(xs, ys_1, label='ion1')    
-    ax.plot(xs, ys_2, label='ion2')    
+    ax.plot(xs, ys_1, label='ion1') 
+    ax.plot(xs, ys_2, label='ion2')
     ax.plot(xs, ys_3, label='ion3')
     ax.plot(xs, ys_4, label='ion4')
     #x axis

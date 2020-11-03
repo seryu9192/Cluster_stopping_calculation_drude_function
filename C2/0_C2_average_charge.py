@@ -30,7 +30,7 @@ plt.rcParams["axes.linewidth"] = 1.5
 
 #filepath
 working_dir = './'
-param_filename = 'param_C2_linear.json'
+param_filename = 'param_C2.json'
 param_path = os.path.join(working_dir, param_filename)
 output_dir = 'results'
 
@@ -88,15 +88,22 @@ def main():
     print(r)
     print(qs)
 
-    #save as a text file    
-    output_filename = '0_C2_linear_average_charge.txt'
+    #save as a json file
+    output_filename = 'C2_average_charge.json'
     output_path = os.path.join(output_dir, output_filename)
-    os.makedirs(output_dir, exist_ok=True)
+    #read json file if exists
+    try:
+        with open(output_path, 'r') as f:
+            dat = json.loads(f.read())
+    except Exception:
+        dat = {}
+        os.makedirs(output_dir, exist_ok=True)
+    #update json
+    dat.setdefault(f"{E}",{})
+    for i, q in enumerate(qs):
+        dat[f"{E}"][f"{i}"] = q
     with open(output_path, 'w') as f:
-        tmp = ''
-        for q in qs:
-            tmp += str(q) + '\n'
-        f.write(tmp)
+        f.write(json.dumps(dat, indent=4))
     
     # plot
     fig = plt.figure(dpi=300)
