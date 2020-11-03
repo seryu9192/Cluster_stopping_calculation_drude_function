@@ -14,8 +14,8 @@ from common_library import *
 #directory path
 working_dir =  r'./'
 input_dir = os.path.join(working_dir, 'results')
-q_ave_path = os.path.join(input_dir, '0_C3_ring_average_charge.txt')
-param_path = r'./param_C3_ring.json'
+q_ave_path = os.path.join(input_dir, 'C3_average_charge.json')
+param_path = r'./param_C3.json'
 
 #experimental condition
 # Energy(keV) and velocity(au) of projectile
@@ -94,7 +94,7 @@ def set_parameters(path):
     #set projectile parameters
     E = params["E0"]
     v = sqrt(E/E_CARBON)
-    r = {k:v/a_0 for k, v in params["r"].items()} # to atomic unit
+    r = {k:v/a_0 for k, v in params["r"]["ring"].items()} # to atomic unit
 
     #set target parameters
     target = params["target"]
@@ -102,7 +102,8 @@ def set_parameters(path):
     
     #import average charge as np.array
     with open(q_ave_path, 'r') as f:
-        q = np.genfromtxt(f)
+        dat = json.loads(f.read())
+        q = np.array([v for k, v in dat[f"{E}"]["ring"].items()])
 
     # N : 束縛電子の数 (Z - q)
     N = Z_CARBON - q

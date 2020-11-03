@@ -13,7 +13,7 @@ from common_library import *
 #directory path
 working_dir =  r'./'
 input_dir = os.path.join(working_dir, 'results')
-q_ave_path = os.path.join(input_dir, '0_C3_linear_average_charge.txt')
+q_ave_path = os.path.join(input_dir, 'C3_average_charge.json')
 param_path = r'./param_C3.json'
 
 #calculation condition
@@ -111,7 +111,8 @@ def set_parameters(path):
     
     #import average charge as np.array
     with open(q_ave_path, 'r') as f:
-        q = np.genfromtxt(f)
+        dat = json.loads(f.read())
+        q = np.array([v for k, v in dat[f"{E}"]["linear"].items()])
 
     # N : 束縛電子の数 (Z - q)
     N = Z_CARBON - q

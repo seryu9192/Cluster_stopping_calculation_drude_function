@@ -13,8 +13,8 @@ from common_library import *
 #directory path
 working_dir =  r'./'
 input_dir = os.path.join(working_dir, 'results')
-q_ave_path = os.path.join(input_dir, '0_C2_linear_average_charge.txt')
-param_path = r'./param_C2_linear.json'
+q_ave_path = os.path.join(input_dir, 'C2_average_charge.json')
+param_path = r'./param_C2.json'
 
 #calculation condition
 dtheta = 1 #theta step
@@ -26,7 +26,7 @@ thetas = [dtheta * i for i in range(theta_max//dtheta + 1)] #[0deg ~ 90deg, step
 E = 0
 #target name
 target = ''
-#plasmon energy(au)
+#plasmon energy(atomic unit)
 E_p = 0
 
 #parameters for integration
@@ -56,7 +56,7 @@ def integrand(k, w):
     for i in range(len(q)):
         zeta[i] = (q[i] + (k*lamb[i])**2)/(1 + (k*lamb[i])**2)
 
-    #calc diagonal and cross_terms term
+    #calc diagonal and cross term
     diagonal_terms = 0
     cross_terms = 0
     #diag
@@ -110,7 +110,8 @@ def set_parameters(path):
     
     #import average charge as np.array
     with open(q_ave_path, 'r') as f:
-        q = np.genfromtxt(f)
+        dat = json.loads(f.read())
+        q = np.array([v for k, v in dat[f"{E}"].items()])
 
     # N : 束縛電子の数 (Z - q)
     N = Z_CARBON - q
