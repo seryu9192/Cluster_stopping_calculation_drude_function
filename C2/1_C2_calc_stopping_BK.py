@@ -164,11 +164,10 @@ def main():
         #headerの書き込み
         #thetaについてループ
         header = ''
-        for i, theta in enumerate(thetas):
+        for theta in thetas:
             header += str(theta) + '\t'
         header += '\n'
         f.write(header)
-
         line = ''
         for stopping in results:
             line += str(stopping) + '\t'
