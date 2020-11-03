@@ -61,8 +61,8 @@ def calc_stopping_BK():
 
     #calc stopping(eV/A)
     res *= Z_CARBON**2
-    res *= 2*e2/pi/v**2
-    res /= a_0**2
+    res *= 2/pi/v**2
+    res *= e2/a_0**2 # to eV/A
     return res
 
 def set_parameters(path):
