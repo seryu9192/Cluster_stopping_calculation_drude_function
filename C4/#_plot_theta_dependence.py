@@ -29,6 +29,7 @@ target = 'Gly'
 
 #filepath
 working_dir =  r'results'
+fig_dir = r'../fig'
 input_dir = working_dir
 filename = 'E=900keV_atom_C4_linear_{}.txt'.format(target)
 inputfile_path = os.path.join(input_dir, filename)
@@ -63,10 +64,10 @@ def main():
 
     save_fig_on = False
     if save_fig_on:
-        outputfig_dir = os.path.join(input_dir, 'fig')
-        os.makedirs(outputfig_dir, exist_ok=True)
-        fig_path = os.path.join(outputfig_dir, filename[:-4]+'.png')
+        os.makedirs(fig_dir, exist_ok=True)
+        fig_path = os.path.join(fig_dir, filename[:-4]+'.png')
         fig.savefig(fig_path, dpi=300, bbox_inches='tight')        
-
+        print(f"successfully saved to {fig_path}")
+        
 if __name__ == '__main__':
     main()
