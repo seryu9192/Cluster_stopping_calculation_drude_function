@@ -59,7 +59,7 @@ def main():
     except Exception:
         dat = {}
         os.makedirs(output_dir, exist_ok=True)
-
+    #update json
     dat[f"{E}"] = q
     with open(output_path, 'w') as f:
         f.write(json.dumps(dat, indent=4))
