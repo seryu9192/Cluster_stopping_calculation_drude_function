@@ -126,24 +126,13 @@ def main():
     print('k_max = {} au'.format(k_max))
 
     stopping = calc_stopping_BK()
+    print(f"S = {stopping} eV/A")
             
     #ファイルに書き込み
-    #output_filename = 'E={}keV_atom_C1_{}.txt'.format(E, target)
-    #with open(os.path.join(input_dir, output_filename), 'w') as f:
-    #    #headerの書き込み
-    #    #thetaについてループ
-    #    #header = ''
-    #    #for i, theta in enumerate(thetas):
-    #    #    header += str(theta) + '\t'
-    #    #header += '\n'
-    #    #f.write(header)
-    #    line = ''
-    #    for stopping in results:
-    #        line += str(stopping) + '\t'
-    #    line += '\n'
-    #    f.write(line)
-    #print('successfully written to {}'.format(os.path.join(input_dir, output_filename)))
-    print('S = {} eV/A'.format(stopping))
+    output_filename = 'E={}keV_atom_C1_{}.txt'.format(E, target)
+    with open(os.path.join(input_dir, output_filename), 'w') as f:
+        f.write(f"{stopping}")
+    print('successfully written to {}'.format(os.path.join(input_dir, output_filename)))
     print('finished!')
 
 if __name__ == '__main__':
