@@ -23,7 +23,7 @@ plt.rcParams["xtick.major.size"] = 6
 plt.rcParams["ytick.major.size"] = 6                
 plt.rcParams["xtick.minor.size"] = 3
 plt.rcParams["ytick.minor.size"] = 3
-plt.rcParams["font.size"] = 20
+plt.rcParams["font.size"] = 15
 plt.rcParams["axes.linewidth"] = 1.5
 
 # glycine parameters
@@ -65,19 +65,19 @@ def main():
     fig = plt.figure(figsize=(6, 5), dpi=300)
     ax = fig.add_subplot(1, 1, 1)
     
-    x = np.linspace(0, 100, 500)
+    x = np.linspace(0, 200, 1000)
     y = elf_ndarray(x)
     ax.plot(x, y, color='black')
     
     #setup for xaxis
-    x_min, x_max, x_major, x_minor = 0, 100, 20, 5
+    x_min, x_max, x_major, x_minor = 0, 163.2, 50, 10
     ax.set_xlim(x_min, x_max)
     ax.xaxis.set_major_locator(MultipleLocator(x_major))
     ax.xaxis.set_minor_locator(MultipleLocator(x_minor))
-    ax.set_xlabel('energy transfer $\hbar\omega_p$ (eV)', fontsize=20)
+    ax.set_xlabel('energy transfer $\hbar\omega$ (eV)', fontsize=20)
 
     #setup for yaxis
-    y_min, y_max, y_major, y_minor = 0, 2, 1, 0.2
+    y_min, y_max, y_major, y_minor = 0, 2, 0.5, 0.1
     y_scale = 1
     y_max *= y_scale
     y_min *= y_scale
@@ -85,10 +85,10 @@ def main():
     y_minor *= y_scale
     
     ax.set_ylim(y_min, y_max)
-    # ax.yaxis.set_major_locator(MultipleLocator(y_major))
-    # ax.yaxis.set_minor_locator(MultipleLocator(y_minor))
-    ax.yaxis.set_major_formatter(FuncFormatter(lambda y, pos: '{:.2f}'.format(y/y_scale)))
-    ax.set_ylabel('OELF Im[-1/$\epsilon$($\omega)$] (arb.unit)', fontsize=22)
+    ax.yaxis.set_major_locator(MultipleLocator(y_major))
+    ax.yaxis.set_minor_locator(MultipleLocator(y_minor))
+    ax.yaxis.set_major_formatter(FuncFormatter(lambda y, pos: '{:.1f}'.format(y/y_scale)))
+    ax.set_ylabel('OELF Im[$-1/\epsilon(k=0,\omega)$]', fontsize=20)
     
     integ = integrate.quad(elf_x, 0, np.Inf)[0]
     print(integ)

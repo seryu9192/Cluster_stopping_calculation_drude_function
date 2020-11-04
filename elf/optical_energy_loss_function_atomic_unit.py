@@ -21,7 +21,7 @@ plt.rcParams["xtick.major.size"] = 6
 plt.rcParams["ytick.major.size"] = 6                
 plt.rcParams["xtick.minor.size"] = 3
 plt.rcParams["ytick.minor.size"] = 3
-plt.rcParams["font.size"] = 20
+plt.rcParams["font.size"] = 15
 plt.rcParams["axes.linewidth"] = 1.5
 
 #CONSTANT
@@ -51,7 +51,7 @@ def main():
     ax.set_xlim(x_min, x_max)
     ax.xaxis.set_major_locator(MultipleLocator(x_major))
     ax.xaxis.set_minor_locator(MultipleLocator(x_minor))
-    ax.set_xlabel('energy transfer $\hbar\omega_p$ (au)', fontsize=20)
+    ax.set_xlabel('energy transfer $\hbar\omega$ (au)', fontsize=20)
 
     #setup for yaxis
     y_min, y_max, y_major, y_minor = 0, 1.5, 0.5, 0.1
@@ -65,7 +65,7 @@ def main():
     ax.yaxis.set_major_locator(MultipleLocator(y_major))
     ax.yaxis.set_minor_locator(MultipleLocator(y_minor))
     ax.yaxis.set_major_formatter(FuncFormatter(lambda y, pos: '{:.1f}'.format(y/y_scale)))
-    ax.set_ylabel('OELF (arb.unit)', fontsize=22)
+    ax.set_ylabel('OELF Im[$-1/\epsilon(k=0,\omega)$]', fontsize=20)
 
     integ = integrate.quad(lambda x: drude_function(x)*x, 0, np.Inf)[0]
     print("integ = ", integ)
