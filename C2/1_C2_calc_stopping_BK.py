@@ -41,6 +41,12 @@ N = [0]
 q = [0]
 lamb = [0]
 
+#parameters to adjust range in quadrature
+wmin = 0
+wmax = 1
+kmin = 0
+kmax = 1
+
 #beam velocity v (atomic unit)
 v = 0
 
@@ -79,8 +85,14 @@ def calc_stopping_BK(t):
     d = {k: v * cos(t) for k, v in r.items()} #axial projection
     b = {k: v * sin(t) for k, v in r.items()} #radial projection
 
+    global wmin, wmax, kmin, kmax
+    wmin = 0.0
+    wmax = 1.0
+    kmin = 0.5
+    kmax = 1.0
+
     #integration result
-    res = integrate.dblquad(integrand, 0, v**2/2, lambda x: v*(1-(1-2*x/v**2)**(1/2)), lambda x: v*(1+(1-2*x/v**2)**(1/2)))[0]
+    res = integrate.dblquad(integrand, v**2/2 * wmin, v**2/2  * wmax, lambda x: v*(1-(1-2*x/v**2)**(1/2)) + v*2*(1-2*x/v**2)**(1/2) * kmin, lambda x: v*(1-(1-2*x/v**2)**(1/2)) + v*2*(1-2*x/v**2)**(1/2) * kmax)[0]
     #calc stopping
     res *= Z_CARBON**2
     res *= 2/pi/v**2
@@ -161,7 +173,7 @@ def main():
         results.append(stopping)
             
     #ファイルに書き込み
-    output_filename = 'E={}keV_atom_C2_linear_{}.txt'.format(E, target)
+    output_filename = 'E={}keV_atom_C2_linear_{}_w={:.1f}-{:.1f}_k={:.1f}-{:.1f}.txt'.format(E, target, wmin, wmax, kmin, kmax)
     with open(os.path.join(input_dir, output_filename), 'w') as f:
         #headerの書き込み
         #thetaについてループ
