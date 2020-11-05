@@ -1,4 +1,4 @@
-# C2_average_charge.py : calculate C2 average charge using Kaneko model(Self-consistent calculation)
+# He2_average_charge.py : calculate He2 average charge using Kaneko model(Self-consistent calculation)
 # Ref: T. Kaneko et al,NIMB315(2013)76, T. Kaneko, PRA 66 (2002) 052901
 
 import numpy as np
@@ -30,7 +30,7 @@ plt.rcParams["axes.linewidth"] = 1.5
 
 #filepath
 working_dir = './'
-param_filename = 'param_C2.json'
+param_filename = 'param_He2.json'
 param_path = os.path.join(working_dir, param_filename)
 output_dir = 'results'
 
@@ -51,13 +51,13 @@ def read_parameters(path):
     with open(path, 'r') as f:
         params = json.loads(f.read())
     E = params["E0"]
-    v = sqrt(E/E_CARBON)
+    v = sqrt(E/E_HELIUM)
     r = params["r"]
     return
 
 def calc_q(i):
     global qs, v, r
-    v_b = 1.092 * Z_CARBON**(4/3)
+    v_b = 1.092 * Z_HELIUM**(4/3)
     for j in range(len(qs)):
         if j == i:
             continue
@@ -65,7 +65,7 @@ def calc_q(i):
         v_b += 2*qs[j]/(r[str_ind(i, j)]/a_0)
     v_b = sqrt(v_b)
     y = sqrt(3/8) * v / v_b
-    q_new = Z_CARBON * 2/sqrt(pi) * integrate.quad(lambda x: exp(-x**2), 0, y)[0]
+    q_new = Z_HELIUM * 2/sqrt(pi) * integrate.quad(lambda x: exp(-x**2), 0, y)[0]
     qs[i] = q_new
 
 def main():
@@ -89,7 +89,7 @@ def main():
     print(qs)
 
     #save as a json file
-    output_filename = 'C2_average_charge.json'
+    output_filename = 'He2_average_charge.json'
     output_path = os.path.join(output_dir, output_filename)
     #read json file if exists
     try:

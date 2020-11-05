@@ -25,14 +25,14 @@ plt.rcParams["ytick.minor.size"] = 3
 plt.rcParams["font.size"] = 18
 plt.rcParams["axes.linewidth"] = 1.5                
 
-target = 'Gly'
-E = 900
+target = 'C'
+E = 4000
 
 #filepath
 working_dir =  r'results'
 fig_dir = r'../fig'
 input_dir = working_dir
-filename = 'E={}keV_atom_C2_linear_{}_w=0.0-1.0_k=0.5-1.0.txt'.format(E, target)
+filename = 'E={}keV_atom_He2_linear_{}_w=0.0-1.0_k=0.0-1.0.txt'.format(E, target)
 inputfile_path = os.path.join(input_dir, filename)
 
 def main():
@@ -54,7 +54,7 @@ def main():
         ax.xaxis.set_minor_locator(MultipleLocator(5))
 
         #y-axis
-        y_min, y_max, y_major, y_minor = 0, 300, 50, 10
+        y_min, y_max, y_major, y_minor = 0, 50, 10, 10
         ax.set_ylabel('', fontsize=22)
         ax.set_ylabel('SP (eV/$\AA$)', fontsize=22)
         ax.set_ylim(y_min, y_max)
