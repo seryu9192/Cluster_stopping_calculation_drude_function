@@ -4,11 +4,13 @@ E_0 = 27.2 #Hartree energy(eV)
 e2 = 14.4 #(eV A)
 E_PROTON = 25
 Z_PROTON = 1 #atomic number of proton
+E_HELIUM = 100 #(keV at 1 au velocity)
+Z_HELIUM = 2 #atomic number of helium
 E_CARBON = 300 #(keV at 1 au velocity)
 Z_CARBON = 6 #atomic number of carbon
 A = 0.240 # constant for calculating screening length of Brandt-Kitagawa model
 
-#constanta for Thomas-Fermi-Morliere screening function
+#constants for Thomas-Fermi-Moliere screening function
 TMF = {
     "alpha": [0.10, 0.55, 0.35],
     "beta": [6.0, 1.20, 0.30]
