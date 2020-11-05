@@ -151,7 +151,7 @@ def main():
     print('E = {} keV/atom'.format(E))
     print('v = {} au'.format(v))
     print('target: {}'.format(target))
-    print('E_p = {} eV'.format(E_p))
+    print('E_p = {} au'.format(E_p))
     print('N : ', N)
     print('q : ', q)
     print('r : ', r)
