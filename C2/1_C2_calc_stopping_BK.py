@@ -46,6 +46,7 @@ v = 0
 
 #被積分関数
 def integrand(k, w):
+    #dispersion relation
     w_k = w + k**2/2
     kappa = (k**2-(w_k/v)**2)**(1/2)
 

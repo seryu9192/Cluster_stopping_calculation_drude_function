@@ -46,7 +46,9 @@ v = 0
 
 #被積分関数
 def integrand(k, w):
-    w_k = w + k**2/2
+    #dispersion relation
+    #w_k = w + k**2/2
+    w_k = w
     kappa = (k**2-(w_k/v)**2)**(1/2)
 
     #Brandt-Kitagawaモデルの遮蔽関数（のFourier変換）
