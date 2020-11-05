@@ -1,4 +1,4 @@
-#0_C2_calc_stopping_BK.py: Brandt-Kitagawaモデルを2原子クラスターの阻止能公式に適用し、イオンに対する阻止能を計算する(積分はscipy.integrateを利用)
+#0_He2_calc_stopping_BK.py: Brandt-Kitagawaモデルを2原子クラスターの阻止能公式に適用し、イオンに対する阻止能を計算する(積分はscipy.integrateを利用)
 
 import numpy as np
 from numpy import sqrt, sin, cos, pi, log, radians
@@ -13,8 +13,8 @@ from common_library import *
 #directory path
 working_dir =  r'./'
 input_dir = os.path.join(working_dir, 'results')
-q_ave_path = os.path.join(input_dir, 'C2_average_charge.json')
-param_path = r'./param_C2.json'
+q_ave_path = os.path.join(input_dir, 'He2_average_charge.json')
+param_path = r'./param_He2.json'
 
 #calculation condition
 dtheta = 1 #theta step
@@ -80,7 +80,7 @@ def integrand(k, w):
 
 #calc stopping
 def calc_stopping_BK(t):
-    # projectile C2+ の幾何学的な配置
+    # projectile He2+ の幾何学的な配置
     global d, b
     d = {k: v * cos(t) for k, v in r.items()} #axial projection
     b = {k: v * sin(t) for k, v in r.items()} #radial projection
@@ -88,13 +88,13 @@ def calc_stopping_BK(t):
     global wmin, wmax, kmin, kmax
     wmin = 0.0
     wmax = 1.0
-    kmin = 0.5
+    kmin = 0.0
     kmax = 1.0
 
     #integration result
     res = integrate.dblquad(integrand, v**2/2 * wmin, v**2/2  * wmax, lambda x: v*(1-(1-2*x/v**2)**(1/2)) + v*2*(1-2*x/v**2)**(1/2) * kmin, lambda x: v*(1-(1-2*x/v**2)**(1/2)) + v*2*(1-2*x/v**2)**(1/2) * kmax)[0]
     #calc stopping
-    res *= Z_CARBON**2
+    res *= Z_HELIUM**2
     res *= 2/pi/v**2
     res *= e2/a_0**2 # to eV/A
     return res
@@ -114,7 +114,7 @@ def set_parameters(path):
         params = json.loads(f.read())
     #set projectile parameters
     E = params["E0"]
-    v = sqrt(E/E_CARBON)
+    v = sqrt(E/E_HELIUM)
     r = {k:v/a_0 for k, v in params["r"].items()} # to atomic unit
 
     #set target parameters
@@ -127,14 +127,16 @@ def set_parameters(path):
         q = np.array([v for k, v in dat[f"{E}"].items()])
 
     # N : 束縛電子の数 (Z - q)
-    N = Z_CARBON - q
+    N = (Z_HELIUM - q)*0
     # q : イオンの価数を電離度(0 - 1)に変換 -> BKモデルのqに対応
-    q /= Z_CARBON
+    q /= Z_HELIUM
+    for i in range(len(q)):
+        q[i] = 1
 
     #Brandt-Kitagawaモデルの遮蔽定数 lambda (atomic unit)
     lamb = [0] * len(q)
     for i in range(len(q)):
-        lamb[i] = 2 * A * (N[i]/Z_CARBON)**(2/3)/(Z_CARBON**(1/3)*(1-N[i]/Z_CARBON/7))
+        lamb[i] = 2 * A * (N[i]/Z_HELIUM)**(2/3)/(Z_HELIUM**(1/3)*(1-N[i]/Z_HELIUM/7))
     
     #calc r_close, r_dist(atomic unit)
     r_close = 1/2/v
@@ -151,7 +153,7 @@ def main():
     print('E = {} keV/atom'.format(E))
     print('v = {} au'.format(v))
     print('target: {}'.format(target))
-    print('E_p = {} eV'.format(E_p))
+    print('E_p = {} au'.format(E_p))
     print('N : ', N)
     print('q : ', q)
     print('r : ', r)
@@ -173,7 +175,7 @@ def main():
         results.append(stopping)
             
     #ファイルに書き込み
-    output_filename = 'E={}keV_atom_C2_linear_{}_w={:.1f}-{:.1f}_k={:.1f}-{:.1f}.txt'.format(E, target, wmin, wmax, kmin, kmax)
+    output_filename = 'E={}keV_atom_He2_linear_{}_w={:.1f}-{:.1f}_k={:.1f}-{:.1f}.txt'.format(E, target, wmin, wmax, kmin, kmax)
     with open(os.path.join(input_dir, output_filename), 'w') as f:
         #headerの書き込み
         #thetaについてループ

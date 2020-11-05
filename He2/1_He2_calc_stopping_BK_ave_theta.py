@@ -1,4 +1,4 @@
-#0_C2_calc_stopping_BK.py: Brandt-Kitagawaモデルを2原子クラスターの阻止能公式に適用し、イオンに対する阻止能を計算する(積分はscipy.integrateを利用)
+#0_He2_calc_stopping_BK.py: Brandt-Kitagawaモデルを2原子クラスターの阻止能公式に適用し、イオンに対する阻止能を計算する(積分はscipy.integrateを利用)
 # stopping averaged over theta
 
 import numpy as np
@@ -14,8 +14,8 @@ from common_library import *
 #directory path
 working_dir =  r'./'
 input_dir = os.path.join(working_dir, 'results')
-q_ave_path = os.path.join(input_dir, 'C2_average_charge.json')
-param_path = r'./param_C2.json'
+q_ave_path = os.path.join(input_dir, 'He2_average_charge.json')
+param_path = r'./param_He2.json'
 
 #experimental condition
 # Energy(keV) and velocity(au) of projectile
@@ -70,7 +70,7 @@ def calc_stopping_BK():
     w_max = 1
     res = integrate.dblquad(integrand, 0, w_max * v**2/2, lambda x: v*(1-(1-2*x/v**2)**(1/2)), lambda x: v*(1+(1-2*x/v**2)**(1/2)))[0]
     #calc stopping
-    res *= Z_CARBON**2
+    res *= Z_HELIUM**2
     res *= 2/pi/v**2
     res *= e2/a_0**2 # to eV/A
     return res
@@ -90,7 +90,7 @@ def set_parameters(path):
         params = json.loads(f.read())
     #set projectile parameters
     E = params["E0"]
-    v = sqrt(E/E_CARBON)
+    v = sqrt(E/E_HELIUM)
     r = {k:v/a_0 for k, v in params["r"].items()} # to atomic unit
 
     #set target parameters
@@ -103,14 +103,14 @@ def set_parameters(path):
         q = np.array([v for k, v in dat[f"{E}"].items()])
 
     # N : 束縛電子の数 (Z - q)
-    N = Z_CARBON - q
+    N = Z_HELIUM - q
     # q : イオンの価数を電離度(0 - 1)に変換 -> BKモデルのqに対応
-    q /= Z_CARBON
+    q /= Z_HELIUM
 
     #Brandt-Kitagawaモデルの遮蔽定数 lambda (atomic unit)
     lamb = [0] * len(q)
     for i in range(len(q)):
-        lamb[i] = 2 * A * (N[i]/Z_CARBON)**(2/3)/(Z_CARBON**(1/3)*(1-N[i]/Z_CARBON/7))
+        lamb[i] = 2 * A * (N[i]/Z_HELIUM)**(2/3)/(Z_HELIUM**(1/3)*(1-N[i]/Z_HELIUM/7))
     
     #calc r_close, r_dist(atomic unit)
     r_close = 1/2/v
@@ -127,7 +127,7 @@ def main():
     print('E = {} keV/atom'.format(E))
     print('v = {} au'.format(v))
     print('target: {}'.format(target))
-    print('E_p = {} eV'.format(E_p))
+    print('E_p = {} au'.format(E_p))
     print('N : ', N)
     print('q : ', q)
     print('r : ', r)
@@ -140,7 +140,7 @@ def main():
     stopping = calc_stopping_BK()
     print(f"S = {stopping} eV/A")
     #ファイルに書き込み
-    output_filename = 'E={}keV_atom_C2_linear_{}_ave_theta.txt'.format(E, target)
+    output_filename = 'E={}keV_atom_He2_linear_{}_ave_theta.txt'.format(E, target)
     with open(os.path.join(input_dir, output_filename), 'w') as f:
         f.write(f"{stopping}")
     print('successfully written to {}'.format(os.path.join(input_dir, output_filename)))
