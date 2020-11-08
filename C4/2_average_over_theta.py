@@ -11,14 +11,18 @@ working_dir =  r'results'
 target = 'Gly'
 input_dirname = working_dir
 input_filename = r'E=900keV_atom_C4_linear_{}.txt'.format(target)
+output_dirname = "averaged"
 
 def main():
     #二次元配列として読み込み
     with open(os.path.join(input_dirname, input_filename)) as f:
         dat = [v.split() for v in f.read().split('\n') if len(v) != 0]
 
-    output_path  = os.path.join(input_dirname, input_filename[:-4] + '_ave_para={}deg-.txt'.format(thetas[0]))
-    output_ratio_path  = os.path.join(input_dirname, input_filename[:-4] + '_ave_ratio.txt')
+    #output_path
+    output_dirpath = os.path.join(input_dirname, output_dirname)
+    os.makedirs(output_dirpath, exist_ok=True)
+    output_path  = os.path.join(output_dirpath, input_filename[:-4] + '_ave_para={}deg-.txt'.format(thetas[0]))
+    output_ratio_path  = os.path.join(output_dirpath, input_filename[:-4] + '_ave_ratio.txt')
 
     output_data = []
     header = []
