@@ -88,8 +88,8 @@ def set_parameters(path):
     
     #import average charge as np.array
     with open(q_ave_path, 'r') as f:
-        q = np.genfromtxt(f)
-    q = np.array([q]) # cast to ndarray
+        dat = json.loads(f.read())
+        q = np.array([dat[f"{E}"]])
 
     # N : 束縛電子の数 (Z - q)
     N = Z_CARBON - q
