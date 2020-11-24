@@ -85,10 +85,11 @@ def calc_stopping_BK(t):
     d = {k: v * cos(t) for k, v in r.items()} #axial projection
     b = {k: v * sin(t) for k, v in r.items()} #radial projection
 
+    #parameters to confine intervals of integration
     global wmin, wmax, kmin, kmax
     wmin = 0.0
     wmax = 1.0
-    kmin = 0.5
+    kmin = 0.0
     kmax = 1.0
 
     #integration result
@@ -173,7 +174,8 @@ def main():
         results.append(stopping)
             
     #ファイルに書き込み
-    output_filename = 'E={}keV_atom_C2_linear_{}_w={:.1f}-{:.1f}_k={:.1f}-{:.1f}.txt'.format(E, target, wmin, wmax, kmin, kmax)
+    #output_filename = 'E={}keV_atom_C2_linear_{}_w={:.1f}-{:.1f}_k={:.1f}-{:.1f}.txt'.format(E, target, wmin, wmax, kmin, kmax)
+    output_filename = 'E={}keV_atom_C2_linear_{}_r={:.2f}.txt'.format(E, target, r["01"])
     with open(os.path.join(input_dir, output_filename), 'w') as f:
         #headerの書き込み
         #thetaについてループ
