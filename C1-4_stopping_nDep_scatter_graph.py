@@ -13,7 +13,10 @@ from matplotlib.ticker import MultipleLocator
 #directory path
 root_path = r'./'
 inputdir_path = os.path.join(root_path, 'summary_of_results')
+
 inputfile_name = r'E=900keV_w=0.0-1.0.txt'
+# inputfile_name = r'E=900keV_w=0.0-1.0_ratio.txt'
+
 inputdata_path = os.path.join(inputdir_path, inputfile_name)
 
 #general parameters of gragh
@@ -30,7 +33,7 @@ plt.rcParams["xtick.major.size"] = 6
 plt.rcParams["ytick.major.size"] = 6                
 plt.rcParams["xtick.minor.size"] = 3
 plt.rcParams["ytick.minor.size"] = 3
-plt.rcParams["font.size"] = 20
+plt.rcParams["font.size"] = 24
 plt.rcParams["axes.linewidth"] = 1.5
 
 markers = ['o', 's', '^', 'v']
@@ -41,9 +44,14 @@ def main():
     with open(inputdata_path, 'r') as f:
         dat = np.genfromtxt(f)
 
-    fig = plt.figure(figsize=(7, 5), dpi=300)
+    fig = plt.figure(figsize=(6, 5), dpi=300)
     ax = fig.add_subplot(1, 1, 1)
-        
+
+    # no vicinage effect line
+    xs_gl = np.linspace(0.5, 4.5, 100)
+    ys_gl = xs_gl * dat[:1, 1]
+    ax.plot(xs_gl, ys_gl, "--", color="black")
+
     for i in range(4):
         #plot
         if i == 0:#single ion
@@ -53,6 +61,8 @@ def main():
             xs = dat[1:, 0]
             ys = dat[1:, i]
         ax.plot(xs, ys, markers[i], markersize=10, label=labels[i])
+
+
 
     #setup for xaxis
     x_min, x_max, x_major, x_minor = 0.5, 4.5, 1, 1
@@ -68,10 +78,10 @@ def main():
     ax.yaxis.set_major_locator(MultipleLocator(y_major))
     ax.yaxis.set_minor_locator(MultipleLocator(y_minor))
     ax.set_ylabel('calculated SP (eV/$\AA$)', fontsize=24)
-    # ax.set_ylabel('$S_n/nS_1 (eV/\AA$)', fontsize=24)
+    # ax.set_ylabel('$S_n/nS_1$', fontsize=24)
 
     #labels
-    ax.legend(loc='upper left', fontsize=16, frameon=False)
+    ax.legend(loc='upper left', fontsize=18, frameon=False, borderpad=0, handlelength=1, handletextpad=0.5)
     
     #title  
     # ax.text(0.01, 1.05, "calculated stopping power of glycine to C$_n^+$", fontsize=20 ,transform=ax.transAxes)
