@@ -26,12 +26,13 @@ plt.rcParams["font.size"] = 18
 plt.rcParams["axes.linewidth"] = 1.5                
 
 target = 'Gly'
+E = 900
 
 #filepath
 working_dir =  r'results'
 fig_dir = r'../fig'
 input_dir = working_dir
-filename = 'E=900keV_atom_C4_linear_{}_wk=w.txt'.format(target)
+filename = 'E=900keV_atom_C4_linear_{}.txt'.format(target)
 inputfile_path = os.path.join(input_dir, filename)
 
 def main():
@@ -63,8 +64,8 @@ def main():
         #plot
         ax.plot(xs, ys, linewidth=2, color='black')
 
-    ax.text(0.01, 0.9, filename, fontsize=24, transform=ax.transAxes)        
-    # ax.text(0.02, 0.9, '{:.1f} MeV/atom C$_4^+$ in {}'.format(E/1000,target), fontsize=24, transform=ax.transAxes)        
+    # ax.text(0.01, 0.9, filename, fontsize=24, transform=ax.transAxes)        
+    ax.text(0.02, 0.9, '{:.1f} MeV/atom C$_4^+$ in {}'.format(E/1000,target), fontsize=24, transform=ax.transAxes)        
 
     save_fig_on = False
     if save_fig_on:

@@ -50,7 +50,7 @@ drude_ufunc = np.frompyfunc(drude_function, 2, 1)
 
 def main():
     #calculation
-    x_ma, y_ma, z_ma = 4, 6, 1.5
+    x_ma, y_ma, z_ma = 4, 6, 1.2
     x_ti, y_ti = 0.05, 0.05
     x = np.arange(0.01, x_ma, x_ti)
     y = np.arange(0.01, y_ma, y_ti)
@@ -64,7 +64,7 @@ def main():
     ax = fig.add_subplot(1, 1, 1, projection='3d')
     
     ax.plot_surface(X, Y, Z, rstride=1, cstride=1, cmap=cm.coolwarm)
-    ax.view_init(elev=20, azim=30)
+    ax.view_init(elev=20, azim=210)
     
     #setup for xaxis
     x_min, x_max, x_major, x_minor = 0, x_ma, 1, 0.5

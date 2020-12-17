@@ -22,7 +22,7 @@ plt.rcParams["xtick.major.size"] = 6
 plt.rcParams["ytick.major.size"] = 6                
 plt.rcParams["xtick.minor.size"] = 3
 plt.rcParams["ytick.minor.size"] = 3
-plt.rcParams["font.size"] = 18                      
+plt.rcParams["font.size"] = 18
 plt.rcParams["axes.linewidth"] = 1.5                
 
 target = 'Gly'
@@ -32,7 +32,7 @@ E = 900
 working_dir =  r'results'
 fig_dir = r'../fig'
 input_dir = working_dir
-filename = 'E={}keV_atom_C2_linear_{}_wk=w.txt'.format(E, target)
+filename = 'E=900keV_atom_C2_linear_Gly_r=1.27A.txt'
 inputfile_path = os.path.join(input_dir, filename)
 
 def main():
@@ -49,9 +49,10 @@ def main():
         
         #x-axis
         ax.set_xlabel('Orientation angle (degree)', fontsize=22)
-        ax.set_xlim(0, 90)
-        ax.xaxis.set_major_locator(MultipleLocator(10))
-        ax.xaxis.set_minor_locator(MultipleLocator(5))
+        x_min, x_max, x_major, x_minor = 0, 90, 10, 5
+        ax.set_xlim(x_min, x_max)
+        ax.xaxis.set_major_locator(MultipleLocator(x_major))
+        ax.xaxis.set_minor_locator(MultipleLocator(x_minor))
 
         #y-axis
         y_min, y_max, y_major, y_minor = 0, 300, 50, 10
@@ -64,8 +65,8 @@ def main():
         #plot
         ax.plot(xs, ys, linewidth=2, color='black')
         
-    # ax.text(0.02, 0.9, '{:.1f} MeV/atom C$_2^+$ in {}'.format(E/1000,target), fontsize=24, transform=ax.transAxes)
-    ax.text(0.01, 0.9, filename, fontsize=24, transform=ax.transAxes)
+    ax.text(0.02, 0.9, '{:.1f} MeV/atom C$_2^+$ in {}'.format(E/1000,target), fontsize=24, transform=ax.transAxes)
+    # ax.text(0.01, 0.9, filename, fontsize=16, transform=ax.transAxes)
 
     save_fig_on = False
     if save_fig_on:
