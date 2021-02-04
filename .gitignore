@@ -1,5 +1,3 @@
-*.txt
 settings.json
-*.png
 *.pyc
 *.md
