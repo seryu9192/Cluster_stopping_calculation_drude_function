@@ -13,7 +13,7 @@ from common_library import *
 #directory path
 working_dir =  r'./'
 input_dir = os.path.join(working_dir, 'results')
-q_ave_path = os.path.join(input_dir, '0_C1_average_charge.txt')
+q_ave_path = os.path.join(input_dir, 'C1_average_charge.json')
 
 param_path = r'./param_C1.json'
 
