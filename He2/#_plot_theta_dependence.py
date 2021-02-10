@@ -9,23 +9,23 @@ import matplotlib.pyplot as plt
 from matplotlib.ticker import MultipleLocator
 
 #グラフ全体のセットアップパラメータ
-plt.rcParams["font.family"] = "Arial"               
-plt.rcParams["xtick.direction"] = "out"             
-plt.rcParams["ytick.direction"] = "in"              
+plt.rcParams["font.family"] = "Arial"
+plt.rcParams["xtick.direction"] = "out"
+plt.rcParams["ytick.direction"] = "in"
 plt.rcParams["xtick.minor.visible"] = True
 plt.rcParams["ytick.minor.visible"] = True
-plt.rcParams["xtick.major.width"] = 1.5             
+plt.rcParams["xtick.major.width"] = 1.5
 plt.rcParams["ytick.major.width"] = 1.5
-plt.rcParams["xtick.minor.width"] = 1.0             
-plt.rcParams["ytick.minor.width"] = 1.0             
+plt.rcParams["xtick.minor.width"] = 1.0
+plt.rcParams["ytick.minor.width"] = 1.0
 plt.rcParams["xtick.major.size"] = 6
-plt.rcParams["ytick.major.size"] = 6                
+plt.rcParams["ytick.major.size"] = 6
 plt.rcParams["xtick.minor.size"] = 3
 plt.rcParams["ytick.minor.size"] = 3
 plt.rcParams["font.size"] = 18
-plt.rcParams["axes.linewidth"] = 1.5                
+plt.rcParams["axes.linewidth"] = 1.5
 
-target = 'C'
+target = 'Gly'
 E = 4000
 
 #filepath
