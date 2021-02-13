@@ -4,13 +4,13 @@ import os
 import sys
 
 #平均を取る区間
-thetas = [8.9, 30, 60, 90]
+thetas = [0, 30, 60, 90]
 
 working_dir =  r'results'
 
 target = 'Gly'
 input_dirname = working_dir
-input_filename = r'E=900keV_atom_C2_linear_{}.txt'.format(target)
+input_filename = f'E=4000keV_atom_He2_linear_{target}_w=0.0-1.0_k=0.0-1.0.txt'
 
 def main():
     #二次元配列として読み込み
