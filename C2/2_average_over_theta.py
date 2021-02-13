@@ -4,13 +4,14 @@ import os
 import sys
 
 #平均を取る区間
-thetas = [8.9, 30, 60, 90]
+thetas = [0, 30, 60, 90]
 
 working_dir =  r'results'
 
 target = 'Gly'
+E = 500
 input_dirname = working_dir
-input_filename = r'E=900keV_atom_C2_linear_{}.txt'.format(target)
+input_filename = f'E={E}keV_atom_C2_linear_{target}_r=2.40.txt'
 output_dirname = "averaged"
 
 def main():

@@ -25,14 +25,14 @@ plt.rcParams["ytick.minor.size"] = 3
 plt.rcParams["font.size"] = 18
 plt.rcParams["axes.linewidth"] = 1.5                
 
+E = 500
 target = 'Gly'
-E = 900
 
 #filepath
 working_dir =  r'results'
-fig_dir = r'../fig'
+fig_dir = r'./figs'
 input_dir = working_dir
-filename = 'E=900keV_atom_C2_linear_Gly_r=1.27A.txt'
+filename = f'E={E}keV_atom_C2_linear_Gly_r=2.40.txt'
 inputfile_path = os.path.join(input_dir, filename)
 
 def main():
@@ -68,7 +68,7 @@ def main():
     ax.text(0.02, 0.9, '{:.1f} MeV/atom C$_2^+$ in {}'.format(E/1000,target), fontsize=24, transform=ax.transAxes)
     # ax.text(0.01, 0.9, filename, fontsize=16, transform=ax.transAxes)
 
-    save_fig_on = False
+    save_fig_on = True
     if save_fig_on:
         os.makedirs(fig_dir, exist_ok=True)
         fig_path = os.path.join(fig_dir, filename[:-4]+'.png')
