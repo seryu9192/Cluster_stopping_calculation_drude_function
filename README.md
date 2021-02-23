@@ -14,6 +14,6 @@
 
 - Energy loss functionは、Ashley(J.Phys.Condens.Matter3(1991)2741)のモデルを用いて、k > 0 の領域にOELFを拡張することで求めた
 
-- ωの分散関係をちゃんと考えた計算。<i>ω<sub>k</sub> = ω<sub>p</sub><sup>2</sup> + (ℏk<sup>2</sup>/2m)<sup>2</sup></i>として計算を行った
+- ωの分散関係をちゃんと考えた計算。<i>ω<sub>k</sub> = ω<sub>p</sub> + (ℏk<sup>2</sup>/2m)</i>として計算を行った
 
 - 波数についての積分は、<i>k</i> (not kappa!) を変数として行った
