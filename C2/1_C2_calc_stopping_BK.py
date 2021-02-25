@@ -175,7 +175,7 @@ def main():
             
     #ファイルに書き込み
     #output_filename = 'E={}keV_atom_C2_linear_{}_w={:.1f}-{:.1f}_k={:.1f}-{:.1f}.txt'.format(E, target, wmin, wmax, kmin, kmax)
-    output_filename = 'E={}keV_atom_C2_linear_{}_r={:.2f}.txt'.format(E, target, r["01"])
+    output_filename = f'E={E}keV_atom_C2_linear_{target}.txt'
     with open(os.path.join(input_dir, output_filename), 'w') as f:
         #headerの書き込み
         #thetaについてループ

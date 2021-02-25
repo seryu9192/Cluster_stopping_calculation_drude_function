@@ -145,7 +145,7 @@ def main():
     print("Stopping power = {} (eV/A)".format(stopping))
 
     #ファイルに書き込み
-    output_filename = 'E={}keV_atom_C4_ring_{}.txt'.format(E, target)
+    output_filename = f'E={E}keV_atom_C4_ring_{target}.txt'
     with open(os.path.join(input_dir, output_filename), 'w') as f:
         f.write(str(stopping))
     print('successfully written to {}'.format(os.path.join(input_dir, output_filename)))
