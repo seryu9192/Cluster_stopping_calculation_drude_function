@@ -4,7 +4,7 @@ import os
 import sys
 
 #平均を取る区間
-thetas = [11.3, 30, 60, 90]
+thetas = [0, 30, 60, 90]
 
 working_dir =  r'results'
 

@@ -9,9 +9,9 @@ thetas = [0, 30, 60, 90]
 working_dir =  r'results'
 
 target = 'Gly'
-E = 500
+E = 900
 input_dirname = working_dir
-input_filename = f'E={E}keV_atom_C2_linear_{target}_r=2.40.txt'
+input_filename = f'E={E}keV_atom_C2_linear_{target}.txt'
 output_dirname = "averaged"
 
 def main():
