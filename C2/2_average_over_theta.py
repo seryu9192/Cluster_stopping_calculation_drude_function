@@ -13,7 +13,7 @@ param_path = r'./param_C2.json'
 target = ''
 E = 0
 input_dirname = working_dir
-input_filename = f'E={E}keV_atom_C2_linear_{target}_r=2.40.txt'
+input_filename = f'E={E}keV_atom_C2_linear_{target}.txt'
 output_dirname = "averaged"
 
 def set_parameters(path):
@@ -27,7 +27,7 @@ def set_parameters(path):
 
     #set target parameters
     target = params["target"]
-    input_filename = f'E={E}keV_atom_C2_linear_{target}_r=2.40.txt'
+    input_filename = f'E={E}keV_atom_C2_linear_{target}.txt'
 
 def main():
     #set parameters
