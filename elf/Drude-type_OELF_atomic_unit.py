@@ -1,11 +1,14 @@
 # Drude-type_OELF_atomic_unit.py
 
 import os
+import sys
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.ticker import MultipleLocator
 from matplotlib.ticker import FuncFormatter
 from scipy import integrate
+sys.path.append('../')
+from common_library import *
 
 #general parameters of gragh
 plt.rcParams["font.family"] = "Arial"                
@@ -24,26 +27,15 @@ plt.rcParams["ytick.minor.size"] = 3
 plt.rcParams["font.size"] = 20
 plt.rcParams["axes.linewidth"] = 1.5
 
-#CONSTANT
-Z_ave = 4 #for Glycine
-E_0 = 27.2 # Hartree energy
-
 omega_p = 19.6487041570916 / E_0
 
-def drude_function(x):
-    #parameter(from Z. Tan et al, Rad.Env.Biophys. 45 2(2006) 135-143)
-    a = 0.2882925381282788
-    b = (19.927 + 0.9807 * Z_ave) / E_0
-    c = (13.741 + 0.3215 * Z_ave) / E_0
-    return a*x/((x**2-b**2)**2 + (c*x)**2)
-    
 
 def main():
     fig = plt.figure(figsize=(6, 5), dpi=300)
     ax = fig.add_subplot(1, 1, 1)
     
     x = np.linspace(0, 10, 500)
-    y = drude_function(x)
+    y = drude_function(x, 'Gly')
     ax.plot(x, y, color='black')
     
     #setup for xaxis
@@ -68,7 +60,7 @@ def main():
     ax.set_ylabel('OELF', fontsize=22)
 
     #check sum-rule
-    integ = integrate.quad(lambda x: drude_function(x)*x, 0, np.Inf)[0]
+    integ = integrate.quad(lambda x: drude_function(x, 'Gly')*x, 0, np.Inf)[0]
     print("integ = ", integ)
     print("pi/2*w**2 = ", np.pi/2*omega_p**2)
     print("pi/2*w**2 / integ = ", (np.pi/2*omega_p**2)/integ)

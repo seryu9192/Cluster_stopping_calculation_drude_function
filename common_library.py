@@ -10,6 +10,18 @@ E_CARBON = 300 #(keV at 1 au velocity)
 Z_CARBON = 6 #atomic number of carbon
 A = 0.240 # constant for calculating screening length of Brandt-Kitagawa model
 
+#properties of solid amino acid
+AMINO_PROP = {
+    "Gly":{
+        "Z_ave": 4.0,
+        "a": 0.2882925381282788
+    },
+    "Phe":{
+        "Z_ave": 3.8260869565217392,
+        "a": 0.2882925381282788
+    },
+}
+
 #constants for Thomas-Fermi-Moliere screening function
 TMF = {
     "alpha": [0.10, 0.55, 0.35],
@@ -23,10 +35,10 @@ def str_ind(i, j):
     return res
 
 #Drude-type Optical energy loss function
-def drude_function(x):
+def drude_function(x, amino_name):
     #parameters from Z.Tan et al, Rad.Env.Biophys. 45 2(2006) 135-143
-    Z_ave = 4 #for Glycine
-    a = 0.2882925381282788 # defined to satisfy f-sum rule
-    b = (19.927 + 0.9807 * Z_ave) / E_0
-    c = (13.741 + 0.3215 * Z_ave) / E_0
+    Z_ave = AMINO_PROP[amino_name]["Z_ave"]
+    a = AMINO_PROP[amino_name]["a"] # defined to satisfy f-sum rule
+    b = (19.927 + 0.9807 * Z_ave) / E_0 #to atomic unit
+    c = (13.741 + 0.3215 * Z_ave) / E_0 #to atomic unit
     return a*x/((x**2-b**2)**2 + (c*x)**2)
