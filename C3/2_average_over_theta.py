@@ -2,18 +2,38 @@
 #n=3
 import os
 import sys
+import json
 
 #平均を取る区間
-thetas = [11.3, 30, 60, 90]
+thetas = [0, 30, 60, 90]
 
 working_dir =  r'results'
+param_path = r'./param_C3.json'
 
-target = 'Gly'
+target = ''
+E = 0
+
 input_dirname = working_dir
-input_filename = r'E=900keV_atom_C3_linear_{}.txt'.format(target)
+input_filename = f'E={E}keV_atom_C3_linear_{target}.txt'
 output_dirname = "averaged"
 
+def set_parameters(path):
+    global E, target, input_filename
+
+    #import parameters
+    with open(param_path, 'r') as f:
+        params = json.loads(f.read())
+    #set projectile parameters
+    E = params["E0"]
+
+    #set target parameters
+    target = params["target"]
+    input_filename = f'E={E}keV_atom_C3_linear_{target}.txt'
+
 def main():
+    #set parameters
+    set_parameters(param_path)
+
     #二次元配列として読み込み
     with open(os.path.join(input_dirname, input_filename)) as f:
         dat = [v.split() for v in f.read().split('\n') if len(v) != 0]
