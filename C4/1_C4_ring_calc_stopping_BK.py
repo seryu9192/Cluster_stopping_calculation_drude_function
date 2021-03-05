@@ -64,7 +64,7 @@ def integrand(k, w):
             if i >= j:
                 continue
             cross_terms += 2*zeta[i]*zeta[j]*j0(kappa * r[str_ind(i, j)])
-    elf = drude_function(w)
+    elf = drude_function(w, target)
     return w * (diagonal_terms + cross_terms)*elf/k
 
 #calc stopping
