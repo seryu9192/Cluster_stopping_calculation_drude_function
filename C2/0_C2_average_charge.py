@@ -52,7 +52,7 @@ def read_parameters(path):
         params = json.loads(f.read())
     E = params["E0"]
     v = sqrt(E/E_CARBON)
-    r = params["r"]
+    r = params["r"][str(E)]
     return
 
 def calc_q(i):
