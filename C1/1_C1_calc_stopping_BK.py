@@ -51,7 +51,7 @@ def integrand(k, w):
     for i in range(len(q)):
        diagonal_terms += zeta[i]**2
 
-    elf = drude_function(w)
+    elf = drude_function(w, target)
     return w * diagonal_terms * elf/k
 
 #calc stopping
