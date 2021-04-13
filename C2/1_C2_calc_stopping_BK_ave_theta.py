@@ -91,7 +91,7 @@ def set_parameters(path):
     #set projectile parameters
     E = params["E0"]
     v = sqrt(E/E_CARBON)
-    r = {k:v/a_0 for k, v in params["r"].items()} # to atomic unit
+    r = {k:v/a_0 for k, v in params["r"][str(E)].items()} # to atomic unit
 
     #set target parameters
     target = params["target"]
