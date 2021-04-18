@@ -216,7 +216,7 @@ def main():
             line += str(stopping[1]) + '\t'
         line += '\n'
         for stopping in results:
-            line += str(stopping[1]/stopping[0]) + '\t'
+            line += str(stopping[0]+stopping[1]) + '\t'
         line += '\n'
         f.write(line)
     print('successfully written to {}'.format(os.path.join(input_dir, output_filename)))
