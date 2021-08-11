@@ -50,7 +50,7 @@ drude_ufunc = np.frompyfunc(drude_function, 2, 1)
 
 def main():
     #calculation
-    x_ma, y_ma, z_ma = 4, 6, 1.2
+    x_ma, y_ma, z_ma = 6, 6, 1.2
     x_ti, y_ti = 0.05, 0.05
     x = np.arange(0.01, x_ma, x_ti)
     y = np.arange(0.01, y_ma, y_ti)
@@ -85,7 +85,7 @@ def main():
     ax.set_zlim(z_min, z_max)
     ax.zaxis.set_major_locator(MultipleLocator(z_major))
     ax.zaxis.set_minor_locator(MultipleLocator(z_minor))
-    ax.set_zlabel('Im[$-1/\epsilon(k,\omega)$]', fontsize=16, )
+    ax.set_zlabel('Im[$-1/\epsilon(k,\omega)$]', fontsize=16)
         
 if __name__ == '__main__':
     main()
