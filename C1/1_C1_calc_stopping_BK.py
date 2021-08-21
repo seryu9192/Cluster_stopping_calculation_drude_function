@@ -30,9 +30,10 @@ r_close = 0
 r_dist = 0
 k_min = 0 #not kappa !!
 k_max = 0
-N = [0]     #the number of bound electrons
-q = [0]     #average charges
-lamb = [0]  #screening parameters of Brandt-Kitagawa model
+N = 0     #the number of bound electrons
+q = 0     #average charge
+qs = {}   #average charges
+lamb = 0  #screening parameters of Brandt-Kitagawa model
 
 #beam velocity v (atomic unit)
 v = 0
@@ -40,16 +41,13 @@ v = 0
 #被積分関数
 def integrand(k, w):
     #Brandt-Kitagawaモデルの遮蔽関数（のFourier変換）
-    zeta = [0] * len(q)
+    zeta = 0
     
     #calc each zeta
-    for i in range(len(q)):
-        zeta[i] = (q[i] + (k*lamb[i])**2)/(1 + (k*lamb[i])**2)
+    zeta = (q + (k*lamb)**2)/(1 + (k*lamb)**2)
 
     #calc diagonal term
-    diagonal_terms = 0
-    for i in range(len(q)):
-       diagonal_terms += zeta[i]**2
+    diagonal_terms = zeta**2
 
     elf = drude_function(w, target)
     return w * diagonal_terms * elf/k
@@ -65,41 +63,42 @@ def calc_stopping_BK():
     res *= e2/a_0**2 # to eV/A
     return res
 
-def set_parameters(path):
-    global E, E_p, target
+def read_parmaters(path):
+    global qs
+    global E_p, target
+    
+    #import parameters
+    with open(param_path, 'r') as f:
+        params = json.loads(f.read())
+
+    #set target parameters
+    target = params["target"]
+    E_p = AMINO_PROP[target]["Ep"]/E_0
+
+    #import average charge as np.array
+    with open(q_ave_path, 'r') as f:
+        qs = json.loads(f.read())
+
+def set_parameters(ene):
+    global E, v
     global r_close, r_dist
     global k_min, k_max
     global N
     global q
     global lamb
-    global v
-
-    #import parameters
-    with open(param_path, 'r') as f:
-        params = json.loads(f.read())
 
     #set projectile parameters
-    E = params["E0"]
+    E = float(ene)
     v = sqrt(E/E_CARBON)
 
-    #set target parameters
-    target = params["target"]
-    E_p = params["Ep"][target]/E_0
-    
-    #import average charge as np.array
-    with open(q_ave_path, 'r') as f:
-        dat = json.loads(f.read())
-        q = np.array([dat[f"{E}"]])
-
     # N : 束縛電子の数 (Z - q)
+    q = qs[ene]
     N = Z_CARBON - q
     # q : イオンの価数を電離度(0 - 1)に変換 -> BKモデルのqに対応
     q /= Z_CARBON
 
     #Brandt-Kitagawaモデルの遮蔽定数 lambda (atomic unit)
-    lamb = [0] * len(q)
-    for i in range(len(q)):
-        lamb[i] = 2 * A * (N[i]/Z_CARBON)**(2/3)/(Z_CARBON**(1/3)*(1-N[i]/Z_CARBON/7))
+    lamb = 2 * A * (N/Z_CARBON)**(2/3)/(Z_CARBON**(1/3)*(1-N/Z_CARBON/7))
     
     #calc r_close, r_dist (atomic unit)
     r_close = 1/2/v
@@ -111,27 +110,36 @@ def set_parameters(path):
     return
 
 def main():
-    set_parameters(param_path)
-    #check parameters
-    print('E = {} keV/atom'.format(E))
-    print('v = {} au'.format(v))
-    print('target: {}'.format(target))
-    print('E_p = {} au'.format(E_p))
-    print('N : ', N)
-    print('q : ', q)
-    print('lambda(au) :', lamb)
-    print('r_dist = {} au'.format(r_dist))
-    print('r_close = {} au'.format(r_close))
-    print('k_min = {} au'.format(k_min))
-    print('k_max = {} au'.format(k_max))
+    read_parmaters(param_path)
 
-    stopping = calc_stopping_BK()
-    print(f"S = {stopping} eV/A")
-            
-    #ファイルに書き込み
-    output_filename = 'E={}keV_atom_C1_{}.txt'.format(E, target)
+    total_output = ""
+    for ene in sorted(list(map(int,qs.keys()))):
+        set_parameters(str(ene))
+        #check parameters
+        print('E = {} keV/atom'.format(E))
+        print('v = {} au'.format(v))
+        print('target: {}'.format(target))
+        print('E_p = {} au'.format(E_p))
+        print('N : ', N)
+        print('q : ', q)
+        print('lambda(au) :', lamb)
+        print('r_dist = {} au'.format(r_dist))
+        print('r_close = {} au'.format(r_close))
+        print('k_min = {} au'.format(k_min))
+        print('k_max = {} au'.format(k_max))
+
+        stopping = calc_stopping_BK()
+        print(f"S = {stopping} eV/A")
+        total_output += f"{ene}\t{str(v)}\t{stopping}\n"            
+        # #ファイルに書き込み
+        # output_filename = 'E={}keV_atom_C1_{}.txt'.format(E, target)
+        # with open(os.path.join(input_dir, output_filename), 'w') as f:
+        #     f.write(f"{stopping}")
+
+    #まとめデータをファイルに書き込み
+    output_filename = 'C_{}.txt'.format(target)
     with open(os.path.join(input_dir, output_filename), 'w') as f:
-        f.write(f"{stopping}")
+        f.write(total_output)
     print('successfully written to {}'.format(os.path.join(input_dir, output_filename)))
     print('finished!')
 
