@@ -1,3 +1,7 @@
+# common_library.py
+
+from numpy import pi
+
 #CONSTANTS(atomic unit)
 a_0 = 0.529 #Bohr radius(A)
 E_0 = 27.2 #Hartree energy(eV)
@@ -14,11 +18,15 @@ A = 0.240 # constant for calculating screening length of Brandt-Kitagawa model
 AMINO_PROP = {
     "Gly":{
         "Z_ave": 4.0,
-        "a": 0.2882925381282788
+        "a": 0.2882925381282788,
+        "Ep": 19.6487041570916, 
+        "vF": 1.069795654
     },
     "Phe":{
         "Z_ave": 3.8260869565217392,
-        "a": 0.2882925381282788
+        "a": 0.2882925381282788,
+        "Ep": 20.4041164494357,
+        "vF": 1.097042407
     },
 }
 
@@ -42,3 +50,10 @@ def drude_function(x, amino_name):
     b = (19.927 + 0.9807 * Z_ave) / E_0 #to atomic unit
     c = (13.741 + 0.3215 * Z_ave) / E_0 #to atomic unit
     return a*x/((x**2-b**2)**2 + (c*x)**2)
+
+# Energy loss function for
+def elf_low_v(k, w, amino_name):
+    E_p = AMINO_PROP[amino_name]["Ep"]/E_0
+    v_F = AMINO_PROP[amino_name]["vF"]
+    k_TF = 3**(1/2)*E_p/v_F # Thomas-Fermi
+    return pi/(2*v_F)*(k_TF**2)*k*w/((k**2+k_TF**2)**2)
