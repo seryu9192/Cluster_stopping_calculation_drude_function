@@ -47,7 +47,8 @@ def integrand(k, w):
     zeta = (q + (k*lamb)**2)/(1 + (k*lamb)**2)
 
     #calc diagonal term
-    diagonal_terms = zeta**2
+    # diagonal_terms = zeta**2
+    diagonal_terms = 1
 
     elf = drude_function(w, target)
     return w * diagonal_terms * elf/k
@@ -73,8 +74,8 @@ def read_parmaters(path):
 
     #set target parameters
     target = params["target"]
-    E_p = params["Ep"][target]/E_0
-    
+    E_p = AMINO_PROP[target]["Ep"]/E_0
+
     #import average charge as np.array
     with open(q_ave_path, 'r') as f:
         qs = json.loads(f.read())
