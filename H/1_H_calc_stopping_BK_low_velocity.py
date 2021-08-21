@@ -131,7 +131,7 @@ def main():
         # print('successfully written to {}'.format(os.path.join(input_dir, output_filename)))
 
     #まとめデータをファイルに書き込み
-    output_filename = 'H_{}_low_velocity.txt'.format(target)
+    output_filename = 'H_{}_low_velocity_q=1.txt'.format(target)
     with open(os.path.join(input_dir, output_filename), 'w') as f:
         f.write(total_output)
     print('successfully written to {}'.format(os.path.join(input_dir, output_filename)))
