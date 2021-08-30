@@ -64,7 +64,7 @@ def calc_stopping_BK():
     res *= e2/a_0**2 # to eV/A
     return res
 
-def read_parmaters(path):
+def read_paramaters(path):
     global qs
     global E_p, target
     
@@ -111,7 +111,7 @@ def set_parameters(ene):
     return
 
 def main():
-    read_parmaters(param_path)
+    read_paramaters(param_path)
     
     total_output = ""
     for ene in sorted(list(map(int,qs.keys()))):
