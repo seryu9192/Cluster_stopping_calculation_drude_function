@@ -27,7 +27,7 @@ def set_parameters(path):
 
     #set target parameters
     target = params["target"]
-    input_filename = f'E={E}keV_atom_C2_linear_{target}.txt'
+    input_filename = f'E={E}keV_atom_C2_linear_{target}_2.txt'
 
 def main():
     #set parameters
@@ -84,10 +84,10 @@ def main():
         #write
         for i in range(len(output_data)):
             f.write('\t'.join(output_data[i])+'\n')
-    with open(output_ratio_path, 'w') as f:
-        #write
-        for i in range(len(output_ratio_data)):
-            f.write('\t'.join(output_ratio_data[i])+'\n')
+    # with open(output_ratio_path, 'w') as f:
+    #     #write
+    #     for i in range(len(output_ratio_data)):
+    #         f.write('\t'.join(output_ratio_data[i])+'\n')
             
     print(input_filename + '---done')
     print('finished!')

@@ -110,7 +110,9 @@ def set_parameters(path):
     #Brandt-Kitagawaモデルの遮蔽定数 lambda (atomic unit)
     lamb = [0] * len(q)
     for i in range(len(q)):
-        lamb[i] = 2 * A * (N[i]/Z_CARBON)**(2/3)/(Z_CARBON**(1/3)*(1-N[i]/Z_CARBON/7))
+        # lamb[i] = 2 * A * (N[i]/Z_CARBON)**(2/3)/(Z_CARBON**(1/3)*(1-N[i]/Z_CARBON/7))   #1 BK lambda
+        lamb[i] = 0.6269 * (N[i]/Z_CARBON)**(2/3)/(Z_CARBON**(1/3)*(1-N[i]/Z_CARBON/7))  #2 Kaneko lambda
+        # lamb[i] = 0.8853 * (N[i]/Z_CARBON)**(2/3)/(Z_CARBON**(1/3)*(1-N[i]/Z_CARBON/7))  #3 Kaneko lambda 2
     
     #calc r_close, r_dist(atomic unit)
     r_close = 1/2/v
@@ -140,7 +142,7 @@ def main():
     stopping = calc_stopping_BK()
     print(f"S = {stopping} eV/A")
     #ファイルに書き込み
-    output_filename = 'E={}keV_atom_C2_linear_{}_ave_theta.txt'.format(E, target)
+    output_filename = 'E={}keV_atom_C2_linear_{}_ave_theta2.txt'.format(E, target)
     with open(os.path.join(input_dir, output_filename), 'w') as f:
         f.write(f"{stopping}")
     print('successfully written to {}'.format(os.path.join(input_dir, output_filename)))

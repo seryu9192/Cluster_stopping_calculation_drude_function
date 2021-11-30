@@ -123,7 +123,8 @@ def set_parameters(path):
     #Brandt-Kitagawaモデルの遮蔽定数 lambda (atomic unit)
     lamb = [0] * len(q)
     for i in range(len(q)):
-        lamb[i] = 2 * A * (N[i]/Z_CARBON)**(2/3)/(Z_CARBON**(1/3)*(1-N[i]/Z_CARBON/7))
+        # lamb[i] = 2 * A * (N[i]/Z_CARBON)**(2/3)/(Z_CARBON**(1/3)*(1-N[i]/Z_CARBON/7))   #1 BK lambda
+        lamb[i] = 0.6269 * (N[i]/Z_CARBON)**(2/3)/(Z_CARBON**(1/3)*(1-N[i]/Z_CARBON/7))  #2 Kaneko lambda
     
     #calc r_close, r_dist(atomic unit)
     r_close = 1/2/v
@@ -162,7 +163,7 @@ def main():
         results.append(stopping)
             
     #ファイルに書き込み
-    output_filename = 'E={}keV_atom_C3_linear_{}.txt'.format(E, target)
+    output_filename = 'E={}keV_atom_C3_linear_{}_2.txt'.format(E, target)
     with open(os.path.join(input_dir, output_filename), 'w') as f:
         #headerの書き込み
         #thetaについてループ

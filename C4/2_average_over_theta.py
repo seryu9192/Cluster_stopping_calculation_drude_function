@@ -28,7 +28,7 @@ def set_parameters(path):
 
     #set target parameters
     target = params["target"]
-    input_filename = f'E={E}keV_atom_C4_linear_{target}.txt'
+    input_filename = f'E={E}keV_atom_C4_linear_{target}_2.txt'
 
 def main():
     #set parameters
